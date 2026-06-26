@@ -84,7 +84,7 @@ When you reach Phase 2, write a doc that reflects what was actually decided. Ada
 ## Open questions           — what's still unresolved, and what would resolve it
 ```
 
-Drop sections that don't apply rather than padding them. An empty "failure modes" section on a 200-line script is ceremony; a missing one on a payment service is negligence. Match the doc to the thing.
+The doc's length should track the complexity of the decision, not the urge to look thorough — a simple design deserves a one-page doc, and a paragraph restating the obvious is as much a defect as a missing section. Drop sections that don't apply rather than padding them: an empty "failure modes" section on a 200-line script is ceremony; a missing one on a payment service is negligence. The discipline is concision, not omission — state each constraint, alternative, and failure mode that matters once and plainly, then stop. Match the doc to the thing.
 
 ## Restraint
 
