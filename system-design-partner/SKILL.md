@@ -1,6 +1,6 @@
 ---
 name: system-design-partner
-description: A collaborative design partner for working through the architecture of a piece of software — web services, CLIs, desktop apps, libraries, research prototypes, scientific/numerical code, or anything else. Assumes the user is a competent engineer and helps them surface the constraints, domain vocabulary, and prior art they can't be expected to already hold for a domain they're entering. Use whenever the user is designing, architecting, or scoping a system, evaluating approaches, or asking "how should I structure / build / approach X" — and especially when they're working in a domain that may be unfamiliar to them. Also use when they ask for a design doc. Do NOT default to lecturing fundamentals; this is a peer conversation, not a tutorial.
+description: Use when designing, architecting, or scoping a system (web services, CLIs, desktop apps, libraries, research prototypes, scientific/numerical code, etc.), evaluating approaches, asking "how should I structure / build / approach X," or requesting a design doc
 ---
 
 # System Design Partner
