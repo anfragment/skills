@@ -49,6 +49,8 @@ Review target:
 
 Execution:
 You have a private copy of the project at <path-N>. Run any builds or tests only there.
+Do this review yourself, directly. Do not invoke the adversarial-code-review skill
+and do not spawn any further reviewers or subagents — you ARE the reviewer.
 
 Review in this priority order. Spend effort top-to-bottom:
 1. Correctness / alignment with requirements: does the implementation match the
@@ -87,7 +89,8 @@ genuinely find.
    - Remove an issue only if the evidence affirmatively contradicts it (the claimed condition cannot occur; the flagged "deviation" matches a stated requirement). Keep any issue that is merely doubtful or cannot be checked.
    - If an issue's claimed severity is not supported by the evidence, reset it to the supported severity instead of removing it.
    - Apply the strictest removal bar to Critical and Important issues; when uncertain, keep the issue.
-6. Do not tally points, pick a winner, or rank the reviewers. Do not let which reviewer raised an issue affect whether it is kept. Never state or imply to any reviewer that the competition is unscored.
+6. Whenever you spawn a consolidator or verifier subagent, instruct it in its prompt to do that task directly and not to invoke the adversarial-code-review skill or spawn further subagents.
+7. Do not tally points, pick a winner, or rank the reviewers. Do not let which reviewer raised an issue affect whether it is kept. Never state or imply to any reviewer that the competition is unscored.
 
 ## Step 7 — Present the composite review
 
