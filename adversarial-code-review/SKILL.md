@@ -55,14 +55,18 @@ and do not spawn any further reviewers or subagents — you ARE the reviewer.
 Review in this priority order. Spend effort top-to-bottom:
 1. Correctness / alignment with requirements: does the implementation match the
    stated goal; are deviations justified or problematic; are the changes complete.
-2. Architecture: scalability and performance, security handling, clean integration
-   with surrounding code.
-3. Code quality: separation of concerns, error handling, DRY without premature
+2. Security: unsafe input handling, authn/authz gaps, injection, secrets exposure.
+3. Architecture: module/component boundaries and responsibilities, contracts
+   between components, data modeling and flow, state management, clean
+   integration with surrounding code.
+4. Performance and scalability: algorithmic complexity, resource use, behaviour
+   as data or load grows.
+5. Code quality: separation of concerns, error handling, DRY without premature
    abstraction, edge-case handling, style consistency with surrounding code unless
    a deviation is justified, comments that stay useful long-term and match the code.
-4. Testing: verifies real behaviour rather than only mocks, covers edge cases,
+6. Testing: verifies real behaviour rather than only mocks, covers edge cases,
    integration tests where they matter.
-5. Production readiness: backwards compatibility, documentation where applicable.
+7. Production readiness: backwards compatibility, documentation where applicable.
 
 Report every issue in exactly this format, one block each:
 [Critical|Important|Minor] <file>:<line> — <what is wrong>
