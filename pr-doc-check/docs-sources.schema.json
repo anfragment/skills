@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "docs-sources.yaml",
+  "description": "Declares where a project's documentation lives. Written as YAML at the project root. Meant to be committed and shared — keep machine-specific paths out of it. Bundled identically with the doc-staleness and pr-doc-check skills; keep both copies in sync.",
+  "type": "object",
+  "required": ["sources"],
+  "additionalProperties": false,
+  "properties": {
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          { "$ref": "#/$defs/pathSource" },
+          { "$ref": "#/$defs/gitSource" },
+          { "$ref": "#/$defs/externalSource" }
+        ]
+      }
+    },
+    "ignore": {
+      "type": "array",
+      "description": "Docs to skip, e.g. because they describe planned behavior. Each entry is a doc reference (see docRef), prefixed with a source name (\"user-docs:docs/pricing.md\") when the same path exists in more than one source.",
+      "items": { "$ref": "#/$defs/docRef" }
+    },
+    "code": {
+      "type": "array",
+      "description": "Hints mapping a doc to the code it covers; used for triage and verification when inference from the doc's content would guess wrong.",
+      "items": {
+        "type": "object",
+        "required": ["doc", "paths"],
+        "additionalProperties": false,
+        "properties": {
+          "doc": { "$ref": "#/$defs/docRef" },
+          "paths": {
+            "type": "array",
+            "description": "Files or directories in the code repo that this doc describes, relative to the project root.",
+            "minItems": 1,
+            "items": { "$ref": "#/$defs/relativePath" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sourceName": {
+      "type": "string",
+      "description": "Optional label for this source; must be unique across sources. Needed only to disambiguate doc references in \"ignore\" and \"code\" when the same doc path exists in more than one source.",
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "docRef": {
+      "type": "string",
+      "description": "Doc path relative to its source repo's root (for \"path\" sources, the project root), independent of the source's \"path\" field. Optionally prefixed with a source name and a colon (\"dev-docs:docs/auth.md\") to disambiguate."
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?![/~])(?![A-Za-z]:)(?!\\.\\.($|/))(?!.*/\\.\\.($|/)).+$",
+      "description": "Relative path: no absolute prefix, \"~\", drive letter, or \"..\" segments — the config is committed and shared, so it must not encode machine-specific locations."
+    },
+    "pathSource": {
+      "type": "object",
+      "description": "Docs inside this repo.",
+      "required": ["type", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/sourceName" },
+        "type": { "const": "path" },
+        "path": {
+          "$ref": "#/$defs/relativePath",
+          "description": "Directory or file, relative to the project root (e.g. \"docs/\"). Docs on this machine outside the project root must be declared as a \"git\" or \"external\" source instead."
+        }
+      }
+    },
+    "gitSource": {
+      "type": "object",
+      "description": "Docs in another git repository.",
+      "required": ["type", "remote"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/sourceName" },
+        "type": { "const": "git" },
+        "remote": {
+          "type": "string",
+          "description": "Remote URL, ssh or https only: \"git@host:org/repo.git\", \"ssh://host/org/repo\", or \"https://host/org/repo\". Other transports (ext::, file://, git://) are rejected — a shared config must not be able to trigger command execution or local file access when cloned.",
+          "pattern": "^(https://[^\\s]+|ssh://[^\\s]+|[A-Za-z0-9._-]+@[A-Za-z0-9._-]+:[^\\s]+)$"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath",
+          "description": "Optional subdirectory within that repo to limit the search to (e.g. \"engineering/\")."
+        }
+      }
+    },
+    "externalSource": {
+      "type": "object",
+      "description": "Docs in an external system such as Notion or Confluence, accessed via whatever integration is available.",
+      "required": ["type", "system", "root"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/sourceName" },
+        "type": { "const": "external" },
+        "system": {
+          "type": "string",
+          "description": "The system's name (e.g. \"notion\", \"confluence\")."
+        },
+        "root": {
+          "type": "string",
+          "description": "Page, space, or folder to start enumerating docs from (e.g. \"Engineering Docs\")."
+        }
+      }
+    }
+  }
+}
