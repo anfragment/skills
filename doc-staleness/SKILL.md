@@ -44,7 +44,7 @@ Read each doc and list its claims that can be verified against the code:
 - **Interfaces**: CLI commands and flags, config keys, environment variables, API endpoints and parameters, dependency or version requirements.
 - **Behavior**: statements like "defaults to X", "retries N times", "requires role Y", "runs on every push".
 
-Calibrate to the doc's audience. Developer docs yield mostly reference and interface claims. User-facing docs make product-level claims — "click Settings → Export", "the free tier allows 3 projects" — which verify against UI strings, route handlers, and limits defined in code or config rather than against symbol names. Content with no counterpart in the codebase (screenshots, pricing, hosted-service behavior) goes in the report's unverified list, not silently skipped.
+Calibrate to the doc's audience. Developer docs yield mostly reference and interface claims. User-facing docs make product-level claims — "click Settings → Export", "the free tier allows 3 projects" — which verify against UI strings, route handlers, and limits defined in code or config rather than against symbol names. Content with no counterpart in the codebase (screenshots, pricing, hosted-service behavior) goes in the report's unverified list; do not skip it silently.
 
 Skip opinions, rationale, and explicitly forward-looking content.
 
@@ -58,7 +58,7 @@ Skip opinions, rationale, and explicitly forward-looking content.
 
 ## Step 5 — Report
 
-Output exactly this structure and stop — do not edit anything:
+Output exactly this structure and stop — do not edit anything. Write each finding so a reader who does not read code can act on it: doc owners could be non-technical even when the evidence is code. The Evidence line states in plain language what the code shows, with the `file:line` as citation.
 
 ```
 # Doc Staleness Report — <scope>
@@ -66,7 +66,7 @@ Output exactly this structure and stop — do not edit anything:
 
 ## <doc path or title>  (last edited <date>; <N> commits to covered code since)
 [Stale] "<quoted claim>" (<section or line in the doc>)
-Evidence: <file:line or search result contradicting it>
+Evidence: <what the code shows, in plain language, with the contradicting file:line or search result as citation>
 Suggested fix: <replacement text for the doc>
 <repeat per stale claim>
 
